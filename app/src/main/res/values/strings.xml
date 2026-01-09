@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">DecoracaoAR</string>
+
+    <!-- Dicas da tela AR (SceneView) -->
+    <string name="hint_loading_model">Carregando modelo 3D...</string>
+    <string name="hint_move_to_detect_plane">Movimente o celular devagar até detectar um plano (chão/mesa).</string>
+    <string name="hint_tap_to_place">Toque em um plano para colocar o objeto.</string>
+    <string name="hint_object_placed">Objeto colocado. Use gestos para mover, rotacionar e escalar.</string>
+
+    <!-- Mensagens -->
+    <string name="msg_already_placed">O objeto já foi colocado.</string>
+    <string name="hint_model_failed">Falha ao carregar o modelo.</string>
+    <string name="error_loading_model">Erro ao carregar modelo</string>
+
+    <!-- Mantidos por compatibilidade (se você referenciar em outras telas) -->
+    <string name="loading_model">@string/hint_loading_model</string>
+    <string name="waiting_tracking">@string/hint_move_to_detect_plane</string>
+    <string name="tap_to_place">@string/hint_tap_to_place</string>
+    <string name="object_placed">@string/hint_object_placed</string>
+
+    <string name="model_loading">Modelo ainda carregando...</string>
+    <string name="no_tracking">Ainda sem rastreamento. Movimente o celular devagar.</string>
+    <string name="already_placed">@string/msg_already_placed</string>
+</resources>
