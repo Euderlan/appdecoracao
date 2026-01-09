@@ -2,22 +2,15 @@ package com.example.decoracao
 
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textview.MaterialTextView
+import com.google.ar.core.Plane
+import com.google.ar.core.TrackingState
 import io.github.sceneview.ar.ARSceneView
 import io.github.sceneview.node.ModelNode
 
-/**
- * Implementação mínima com SceneView 2.x (arsceneview:2.3.1).
- *
- * - O modelo .glb está em: app/src/main/assets/models/decoracao.glb
- * - Para carregar via assets na 2.x, use o caminho relativo à pasta assets:
- *     "models/decoracao.glb"
- *
- * Observação: nesta versão, ModelNode exige o parâmetro `modelInstance` e o carregamento é feito via
- * `arSceneView.modelLoader.createModelInstance(...)` (não existe `loadModelGlbAsync(...)` aqui).
- */
 class MainActivity : AppCompatActivity() {
 
     companion object {
@@ -28,7 +21,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var arSceneView: ARSceneView
     private var tvHint: MaterialTextView? = null
 
-    private var modelNode: ModelNode? = null
+    // Guardamos a instância do modelo para reutilizar quando criar o Anchor
+    private var modelInstance: Any? = null // (tipo real é ModelInstance; deixo Any para evitar import chato)
+    private var placedNode: ModelNode? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,37 +34,42 @@ class MainActivity : AppCompatActivity() {
 
         tvHint?.text = "Carregando modelo 3D..."
         loadModelFromAssets()
+
+        // Toque para colocar no plano (chão/mesa)
+        arSceneView.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                tryPlaceOnPlane(event)
+            }
+            true
+        }
+
+        // Atualiza dica conforme tracking
+        arSceneView.onSessionUpdated = { session, frame ->
+            val tracking = frame.camera.trackingState
+            if (placedNode == null) {
+                tvHint?.text = when (tracking) {
+                    TrackingState.TRACKING -> "Toque no chão/mesa para posicionar o objeto."
+                    TrackingState.PAUSED -> "Movimente o celular para o ARCore rastrear o ambiente…"
+                    TrackingState.STOPPED -> "Tracking parado."
+                }
+            }
+        }
     }
 
     private fun loadModelFromAssets() {
         Log.d(TAG, "Carregando modelo de assets: $MODEL_ASSET_PATH")
 
         try {
-            // Cria a instância do modelo a partir do arquivo em assets.
-            val modelInstance = arSceneView.modelLoader.createModelInstance(
+            // cria a instância (uma vez)
+            val instance = arSceneView.modelLoader.createModelInstance(
                 assetFileLocation = MODEL_ASSET_PATH
             )
-
-            // Cria o nó do modelo (na 2.x, ModelNode exige modelInstance).
-            val node = ModelNode(
-                modelInstance = modelInstance,
-                // Ajuste básico de escala (depois você pode mudar para ficar no tamanho real)
-                scaleToUnits = 1.0f
-            )
-
-            modelNode = node
-
-            // Adiciona o nó na cena. (Por enquanto, fica fixo na cena;
-            // depois podemos fazer hit-test e colocar no plano ao tocar.)
-            arSceneView.addChildNode(node)
-
-            tvHint?.text = "Modelo carregado. (Próximo passo: colocar no chão/mesa ao tocar.)"
-            Log.d(TAG, "Modelo carregado e adicionado na cena.")
+            modelInstance = instance
+            tvHint?.text = "Modelo carregado. Aponte para o chão/mesa e toque para colocar."
 
         } catch (t: Throwable) {
-            Log.e(TAG, "Falha ao carregar/adicionar o modelo: ${t.message}", t)
+            Log.e(TAG, "Falha ao carregar modelo: ${t.message}", t)
             tvHint?.text = "Erro ao carregar modelo. Veja o Logcat."
-
             Snackbar.make(
                 findViewById(android.R.id.content),
                 "Erro ao carregar o modelo: ${t.message}",
@@ -78,13 +78,61 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun tryPlaceOnPlane(event: MotionEvent) {
+        if (placedNode != null) {
+            // Se quiser permitir reposicionar, descomente:
+            // placedNode?.destroy()
+            // placedNode = null
+            Snackbar.make(findViewById(android.R.id.content), "Objeto já posicionado.", Snackbar.LENGTH_SHORT).show()
+            return
+        }
+
+        val instance = modelInstance
+        if (instance == null) {
+            Snackbar.make(findViewById(android.R.id.content), "Modelo ainda não carregou.", Snackbar.LENGTH_SHORT).show()
+            return
+        }
+
+        val frame = arSceneView.currentFrame ?: return
+        if (frame.camera.trackingState != TrackingState.TRACKING) {
+            Snackbar.make(findViewById(android.R.id.content), "Aguarde o tracking estabilizar…", Snackbar.LENGTH_SHORT).show()
+            return
+        }
+
+        // Hit-test no ponto tocado
+        val hits = frame.hitTest(event)
+        val hit = hits.firstOrNull { hitResult ->
+            val trackable = hitResult.trackable
+            trackable is Plane && trackable.isPoseInPolygon(hitResult.hitPose)
+        }
+
+        if (hit == null) {
+            Snackbar.make(findViewById(android.R.id.content), "Toque em uma superfície detectada (chão/mesa).", Snackbar.LENGTH_SHORT).show()
+            return
+        }
+
+        val anchor = hit.createAnchor()
+
+        // ✅ Agora sim: prende em Anchor (fica parado)
+        val node = ModelNode(
+            modelInstance = instance as io.github.sceneview.model.ModelInstance,
+            scaleToUnits = 1.0f
+        ).apply {
+            this.anchor = anchor
+            // opcional: levantar um pouquinho se estiver "afundando" no plano
+            // position = position.copy(y = position.y + 0.01f)
+        }
+
+        arSceneView.addChildNode(node)
+        placedNode = node
+        tvHint?.text = "Objeto fixado. ✅"
+        Log.d(TAG, "Objeto ancorado e fixado no plano.")
+    }
+
     override fun onDestroy() {
-        // Na sua versão, não existem arSceneView.onResume()/onPause().
-        // O destroy() existe e é o recomendado para liberar recursos.
         try {
             arSceneView.destroy()
-        } catch (_: Throwable) {
-        }
+        } catch (_: Throwable) {}
         super.onDestroy()
     }
 }
