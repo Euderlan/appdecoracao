@@ -12,7 +12,6 @@ class MenuActivity : AppCompatActivity() {
         setContentView(R.layout.activity_menu)
 
         findViewById<MaterialButton>(R.id.btnStart).setOnClickListener {
-            // Por enquanto, sempre inicia com o mesmo modelo.
             startActivity(Intent(this, MainActivity::class.java))
         }
     }

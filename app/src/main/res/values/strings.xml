@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DecoracaoAR</string>
+    <string name="app_name">Decoracao</string>
 
     <!-- Dicas da tela AR (SceneView) -->
     <string name="hint_loading_model">Carregando modelo 3D...</string>
