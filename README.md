@@ -6,7 +6,7 @@
   <img 
     src="Imagens/appdecoracao.jpg"
     alt="Tela inicial do Decoracao AR"
-    width="45%"
+    width="20%"
   />
 </div>
 ---
