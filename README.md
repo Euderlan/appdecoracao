@@ -41,7 +41,7 @@ Decoracao AR é uma aplicação de Realidade Aumentada (AR) desenvolvida em Andr
 Clone o repositório do projeto ou baixe os arquivos em uma pasta local:
 
 ```bash
-git clone <seu-repositorio>
+git clone <https://github.com/Euderlan/appdecoracao.git>
 cd decoracao
 ```
 
