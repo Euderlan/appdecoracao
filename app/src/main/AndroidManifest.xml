@@ -1,17 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Arquivo de manifesto do Android que declara as informações essenciais do aplicativo
+  Define permissões, features necessárias, activities e metadados
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!--
+      Permissão para acessar a câmera do dispositivo
+      Necessária para capturar vídeo em tempo real para a AR
+    -->
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <!--
+      Define que a câmera é opcionalmente necessária
+      required="false" significa que o app pode funcionar sem câmera
+      (mas não recomendado para AR)
+    -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
 
+    <!--
+      Define que suporte AR (ARCore) é obrigatório
+      required="true" significa que o dispositivo DEVE ter ARCore para instalar o app
+    -->
     <uses-feature
         android:name="android.hardware.camera.ar"
         android:required="true" />
 
+    <!--
+      Bloco principal que configura o aplicativo
+      Define ícone, tema, nome e outras propriedades globais
+    -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,27 +41,50 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Decoracao">
 
-        <!-- Sobrescreve o "optional" da dependência SceneView -->
+        <!--
+          Metadados que declaram que ARCore é OBRIGATÓRIO para o app
+          tools:replace="android:value" sobrescreve qualquer valor anterior
+          definido por dependências (como a biblioteca SceneView)
+        -->
         <meta-data
             android:name="com.google.ar.core"
             android:value="required"
             tools:replace="android:value" />
 
+        <!--
+          Declaração da MenuActivity
+          Esta é a primeira tela que o usuário vê ao abrir o app
+        -->
         <activity
             android:name=".MenuActivity"
             android:theme="@style/Theme.Decoracao"
             android:exported="true">
+            <!--
+              Filtro de intent que define esta activity como ponto de entrada do app
+              MAIN = esta é a activity principal
+              LAUNCHER = aparece no launcher do Android
+            -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <!--
+          Declaração da MainActivity
+          Activity responsável pela visualização em AR
+        -->
         <activity
             android:name=".MainActivity"
             android:exported="false"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <!--
+              android:exported="false" = não pode ser iniciada por outros apps
+              android:launchMode="singleTask" = garante que apenas uma instância da activity existe
+              android:screenOrientation="portrait" = força orientação vertical (não rotaciona)
+            -->
+        </activity>
 
     </application>
 

@@ -7,4 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Cores dos botões do menu -->
+    <color name="button_pinheiro">#FF2E8B57</color>
+    <color name="button_arvore">#FF228B22</color>
+    <color name="button_decoracao">#FFFF6B9D</color>
+
+    <!-- Gradiente de fundo -->
+    <color name="gradient_start">#FF1A1A1A</color>
+    <color name="gradient_end">#FF2D5016</color>
 </resources>
