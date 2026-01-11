@@ -53,7 +53,7 @@
 
         <!--
           Declaração da MenuActivity
-          Esta é a primeira tela que o usuário vê ao abrir o app
+          Esta é a primeira tela que o usuário vé ao abrir o app
         -->
         <activity
             android:name=".MenuActivity"
@@ -78,11 +78,18 @@
             android:name=".MainActivity"
             android:exported="false"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
+            android:screenOrientation="sensor">
             <!--
               android:exported="false" = não pode ser iniciada por outros apps
               android:launchMode="singleTask" = garante que apenas uma instância da activity existe
-              android:screenOrientation="portrait" = força orientação vertical (não rotaciona)
+              android:screenOrientation="sensor" = permite todas as 4 orientacoes
+
+              Opcoes de orientacao disponiveis:
+              - sensorPortrait: rotaciona entre portrait normal e de cabeça para baixo
+              - sensorLandscape: rotaciona entre landscape normal e de cabeça para baixo
+              - sensor: permite todas as 4 orientacoes (portrait, reverse portrait, landscape, reverse landscape)
+              - portrait: fixa em portrait
+              - landscape: fixa em landscape
             -->
         </activity>
 
