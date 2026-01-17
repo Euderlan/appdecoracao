@@ -1,6 +1,7 @@
 # Decoracao AR - Manual de Execução
-
-## Imagem da Aplicacao
+## Disciplina: Computação Grafica
+## Discente: Euderlan Freire da Silva Abreu
+## Imagem da Aplicação
 
 <div align="center">
   <img 
@@ -41,7 +42,7 @@ Decoracao AR é uma aplicação de Realidade Aumentada (AR) desenvolvida em Andr
 Clone o repositório do projeto ou baixe os arquivos em uma pasta local:
 
 ```bash
-git clone <https://github.com/Euderlan/appdecoracao.git>
+git clone https://github.com/Euderlan/appdecoracao.git
 cd decoracao
 ```
 
@@ -63,7 +64,7 @@ cd decoracao
 ---
 
 ## Executar a Aplicação
-### PULE PARA MÉTEDO 2 PARA TESTAR NO CELULAR
+### DICA: PULE PARA MÉTEDO 2 PARA TESTAR NO CELULAR
 ### Método 1: Emulador Android
 
 1. Abra o Android Virtual Device (AVD) Manager:
@@ -124,15 +125,6 @@ Após selecionar um modelo:
 - Quando um plano for detectado, o modelo será fixado automaticamente
 - Mensagem: "Fixado no plano! Deslize para rotacionar"
 - As grades dos planos desaparecerão
-
-### Rotacionar o Modelo
-
-Após o modelo ser fixado:
-
-1. Deslize o dedo horizontalmente na tela
-2. Deslize para a esquerda para rotacionar no sentido anti-horário
-3. Deslize para a direita para rotacionar no sentido horário
-4. A rotação é contínua enquanto você desliza
 
 ### Fallback Automático
 
@@ -273,9 +265,10 @@ Todas estas permissões são declaradas no arquivo `AndroidManifest.xml` e solic
 
 Para problemas técnicos ou dúvidas:
 
-1. Verifique a documentação do ARCore: https://developers.google.com/ar
-2. Verifique a documentação do SceneView: https://github.com/SceneView/sceneview-android
-3. Consulte a documentação do Android Studio: https://developer.android.com/studio
+1. Email: euderlan.freire@discente.ufma.br
+2. Verifique a documentação do ARCore: https://developers.google.com/ar
+3. Verifique a documentação do SceneView: https://github.com/SceneView/sceneview-android
+4. Consulte a documentação do Android Studio: https://developer.android.com/studio
 
 
 ---
