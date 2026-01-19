@@ -99,7 +99,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.2.0")
 
     // ARCore - biblioteca principal do Google para Realidade Aumentada
-    implementation("com.google.ar:core:1.51.0")
+    implementation("com.google.ar:core:1.52.0")
 
     // SceneView - wrapper que facilita o uso de ARCore com 3D
     // Fornece ARSceneView, ModelNode, AnchorNode, etc

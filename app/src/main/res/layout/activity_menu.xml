@@ -82,6 +82,18 @@
             app:backgroundTint="@color/button_decoracao"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
+        <!-- Quadro -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnQuadro"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text=" Quadro"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            app:backgroundTint="@color/button_quadro"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

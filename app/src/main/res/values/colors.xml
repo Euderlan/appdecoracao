@@ -10,8 +10,9 @@
 
     <!-- Cores dos botões do menu -->
     <color name="button_pinheiro">#FF2E8B57</color>
-    <color name="button_arvore">#FF228B22</color>
-    <color name="button_decoracao">#FFFF6B9D</color>
+    <color name="button_arvore">#FF2E8B40</color>
+    <color name="button_decoracao">#FF228B60</color>
+    <color name="button_quadro">#FF228B45</color>
 
     <!-- Gradiente de fundo -->
     <color name="gradient_start">#FF1A1A1A</color>

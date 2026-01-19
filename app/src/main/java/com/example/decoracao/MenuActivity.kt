@@ -14,40 +14,33 @@ class MenuActivity : AppCompatActivity() {
         // Carrega o layout da activity menu (activity_menu.xml)
         setContentView(R.layout.activity_menu)
 
-        // Configura o listener do botão Pinheiro de Natal
+        // Botão Pinheiro de Natal
         findViewById<MaterialButton>(R.id.btnPinheiro).setOnClickListener {
-            // Cria um intent para iniciar a MainActivity
-            val intent = Intent(this, MainActivity::class.java)
-            // Passa o caminho do modelo GLB como extra
-            intent.putExtra("MODEL_PATH", "models/pinheiro_de_natal.glb")
-            // Passa o nome do modelo para exibição na tela
-            intent.putExtra("MODEL_NAME", "Pinheiro de Natal")
-            // Inicia a MainActivity com o modelo selecionado
-            startActivity(intent)
+            startAR("models/pinheiro_de_natal.glb", "Pinheiro de Natal")
         }
 
-        // Configura o listener do botão Árvore Parabólica
+        // Botão Árvore Parabólica
         findViewById<MaterialButton>(R.id.btnArvore).setOnClickListener {
-            // Cria um intent para iniciar a MainActivity
-            val intent = Intent(this, MainActivity::class.java)
-            // Passa o caminho do modelo GLB como extra
-            intent.putExtra("MODEL_PATH", "models/arvore_parabolica.glb")
-            // Passa o nome do modelo para exibição na tela
-            intent.putExtra("MODEL_NAME", "Árvore Parabólica")
-            // Inicia a MainActivity com o modelo selecionado
-            startActivity(intent)
+            startAR("models/arvore_parabolica.glb", "Árvore Parabólica")
         }
 
-        // Configura o listener do botão Decoração
+        // Botão Decoração
         findViewById<MaterialButton>(R.id.btnDecoracao).setOnClickListener {
-            // Cria um intent para iniciar a MainActivity
-            val intent = Intent(this, MainActivity::class.java)
-            // Passa o caminho do modelo GLB como extra
-            intent.putExtra("MODEL_PATH", "models/decoracao.glb")
-            // Passa o nome do modelo para exibição na tela
-            intent.putExtra("MODEL_NAME", "Decoração")
-            // Inicia a MainActivity com o modelo selecionado
-            startActivity(intent)
+            startAR("models/decoracao.glb", "Decoração")
         }
+
+        // Botão Quadro
+        findViewById<MaterialButton>(R.id.btnQuadro).setOnClickListener {
+            startAR("models/quadro.glb", "Quadro")
+        }
+    }
+
+    // Função auxiliar para iniciar a MainActivity
+    private fun startAR(modelPath: String, modelName: String) {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            putExtra("MODEL_PATH", modelPath)
+            putExtra("MODEL_NAME", modelName)
+        }
+        startActivity(intent)
     }
 }
